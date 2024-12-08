@@ -63,28 +63,52 @@ public class ReservationService {
 
     @Transactional
     public Reservation updateReservation(Long id, Reservation reservationDetails) {
+        // Retrieve the existing reservation
         Reservation reservation = reservationRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Reservation not found with id: " + id));
 
-        // Update client if changed
-        if (!reservation.getClient().equals(reservationDetails.getClient())) {
-            Client client = clientRepository.findById(reservationDetails.getClient().getId())
-                    .orElseThrow(() -> new RuntimeException("Client not found"));
-            reservation.setClient(client);
+        // Update client attributes if provided
+        if (reservationDetails.getClient() != null) {
+            Client client = reservation.getClient();
+            if (reservationDetails.getClient().getNom() != null) {
+                client.setNom(reservationDetails.getClient().getNom());
+            }
+            if (reservationDetails.getClient().getPrenom() != null) {
+                client.setPrenom(reservationDetails.getClient().getPrenom());
+            }
+            if (reservationDetails.getClient().getEmail() != null) {
+                client.setEmail(reservationDetails.getClient().getEmail());
+            }
+            clientRepository.save(client); // Save updated client
         }
 
-        // Update chambre if changed
-        if (!reservation.getChambre().equals(reservationDetails.getChambre())) {
-            Chambre chambre = chambreRepository.findById(reservationDetails.getChambre().getId())
-                    .orElseThrow(() -> new RuntimeException("Chambre not found"));
-            reservation.setChambre(chambre);
+        // Update chambre attributes if provided
+        if (reservationDetails.getChambre() != null) {
+            Chambre chambre = reservation.getChambre();
+            if (reservationDetails.getChambre().getNumero() != null) {
+                chambre.setNumero(reservationDetails.getChambre().getNumero());
+            }
+            if (reservationDetails.getChambre().getType() != null) {
+                chambre.setType(reservationDetails.getChambre().getType());
+            }
+            if (reservationDetails.getChambre().getPrix() != 0) {
+                chambre.setPrix(reservationDetails.getChambre().getPrix());
+            }
+            chambreRepository.save(chambre); // Save updated chambre
         }
 
-        reservation.setDateDebut(reservationDetails.getDateDebut());
-        reservation.setDateFin(reservationDetails.getDateFin());
+        // Update reservation dates
+        if (reservationDetails.getDateDebut() != null) {
+            reservation.setDateDebut(reservationDetails.getDateDebut());
+        }
+        if (reservationDetails.getDateFin() != null) {
+            reservation.setDateFin(reservationDetails.getDateFin());
+        }
 
+        // Save and return the updated reservation
         return reservationRepository.save(reservation);
     }
+
 
     public void deleteReservation(Long id) {
         reservationRepository.deleteById(id);
