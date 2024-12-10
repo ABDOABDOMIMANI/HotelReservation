@@ -1,5 +1,5 @@
 package com.example.restprojecthotel.entities;
-import com.example.hotel.model.TypeChambre;
+import com.example.restprojecthotel.entities.TypeChambre;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -11,7 +11,7 @@ public class Chambre {
     private Long id;
     private String numero;
     @Enumerated(EnumType.STRING)
-    private com.example.hotel.model.TypeChambre type;
+    private com.example.restprojecthotel.entities.TypeChambre type;
     private double prix;
 
     public Long getId() {
