@@ -4,20 +4,19 @@ import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDate;
 
-@Data
 @Entity
 public class Reservation {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
     @ManyToOne
     private Client client;
     @ManyToOne
     private Chambre chambre;
-    private LocalDate dateDebut;
-    private LocalDate dateFin;
+    private String dateDebut;
+    private String dateFin;
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
@@ -29,15 +28,15 @@ public class Reservation {
         return chambre;
     }
 
-    public LocalDate getDateDebut() {
+    public String getDateDebut() {
         return dateDebut;
     }
 
-    public LocalDate getDateFin() {
+    public String getDateFin() {
         return dateFin;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -49,11 +48,11 @@ public class Reservation {
         this.chambre = chambre;
     }
 
-    public void setDateDebut(LocalDate dateDebut) {
+    public void setDateDebut(String dateDebut) {
         this.dateDebut = dateDebut;
     }
 
-    public void setDateFin(LocalDate dateFin) {
+    public void setDateFin(String dateFin) {
         this.dateFin = dateFin;
     }
 }

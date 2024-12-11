@@ -29,7 +29,7 @@ public class ReservationService {
         return reservationRepository.findAll();
     }
 
-    public Optional<Reservation> getReservationById(Long id) {
+    public Reservation getReservationById(int id) {
         return reservationRepository.findById(id);
     }
 
@@ -37,7 +37,8 @@ public class ReservationService {
     public Reservation createReservation(Reservation reservation) {
         // Ensure the client is saved
         Client client = reservation.getClient();
-        if (client.getId() == null) {
+
+        if (client.getId() == null || client.getId() == 0 ) {
             client = clientRepository.save(client);
         } else {
             client = clientRepository.findById(client.getId())
@@ -46,7 +47,7 @@ public class ReservationService {
 
         // Ensure the chambre is saved
         Chambre chambre = reservation.getChambre();
-        if (chambre.getId() == null) {
+        if (chambre.getId() == null || chambre.getId() == 0) {
             chambre = chambreRepository.save(chambre);
         } else {
             chambre = chambreRepository.findById(chambre.getId())
@@ -62,10 +63,9 @@ public class ReservationService {
     }
 
     @Transactional
-    public Reservation updateReservation(Long id, Reservation reservationDetails) {
+    public Reservation updateReservation(int id, Reservation reservationDetails) {
         // Retrieve the existing reservation
-        Reservation reservation = reservationRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Reservation not found with id: " + id));
+        Reservation reservation = reservationRepository.findById(id) ;
 
         // Update client attributes if provided
         if (reservationDetails.getClient() != null) {
@@ -110,7 +110,7 @@ public class ReservationService {
     }
 
 
-    public void deleteReservation(Long id) {
+    public void deleteReservation(int id) {
         reservationRepository.deleteById(id);
     }
 }
