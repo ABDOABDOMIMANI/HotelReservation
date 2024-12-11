@@ -1,6 +1,6 @@
 package com.example.restprojecthotel.entities;
-import com.example.hotel.model.TypeChambre;
 import jakarta.persistence.*;
+import com.example.restprojecthotel.entities.*;
 import lombok.Data;
 
 @Data
@@ -8,17 +8,17 @@ import lombok.Data;
 public class Chambre {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
     private String numero;
     @Enumerated(EnumType.STRING)
-    private com.example.hotel.model.TypeChambre type;
+    private TypeChambre type;
     private double prix;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

@@ -1,4 +1,4 @@
-package com.example.hotel.model;
+package com.example.restprojecthotel.entities;
 
 public enum TypeChambre {
     SIMPLE,

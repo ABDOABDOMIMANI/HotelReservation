@@ -1,0 +1,90 @@
+syntax = "proto3";
+
+package stubs;
+option java_multiple_files = true;
+
+// Enum representing the type of a chambre
+enum TypeChambre {
+  SIMPLE = 0;
+  DOUBLE = 1;
+  SUITE = 2;
+}
+
+// Message representing a Chambre entity
+message Chambre {
+  int32 id = 1;
+  string numero = 2;
+  TypeChambre type = 3; // Updated to use the TypeChambre enum
+  double prix = 4;
+}
+
+// Message representing a Client entity
+message Client {
+  int32 id = 1;
+  string nom = 2;
+  string prenom = 3;
+  string email = 4;
+}
+
+// Message representing a Reservation entity
+message Reservation {
+  int32 id = 1;
+  Client client = 2;
+  Chambre chambre = 3;
+  string dateDebut = 4;
+  string dateFin = 5;
+}
+
+// Request message to create or update a Reservation
+message CreateUpdateReservationRequest {
+  Reservation reservation = 1;
+}
+
+// Response message for create or update actions
+message ReservationResponse {
+  Reservation reservation = 1;
+}
+
+// Request message to fetch a reservation by ID
+message GetReservationRequest {
+  int32 id = 1;
+}
+
+// Request message to delete a reservation by ID
+message DeleteReservationRequest {
+  int32 id = 1;
+}
+
+// Empty response for delete operation
+message DeleteReservationResponse {
+  bool success = 1 ;
+  string message = 2 ;
+}
+
+// Requête pour obtenir tous les comptes
+message GetAllReservationRequest {}
+
+// Réponse contenant la liste des comptes
+message GetAllReservationResponse {
+  repeated Reservation reservations = 1;
+}
+
+
+
+// Service definition
+service ReservationService {
+  // Create a reservation
+  rpc CreateReservation(CreateUpdateReservationRequest) returns (ReservationResponse);
+
+  // Update a reservation
+  rpc UpdateReservation(CreateUpdateReservationRequest) returns (ReservationResponse);
+
+  // Get a reservation by ID
+  rpc GetReservation(GetReservationRequest) returns (ReservationResponse);
+
+  // Delete a reservation
+  rpc DeleteReservation(DeleteReservationRequest) returns (DeleteReservationResponse);
+
+  //get all the reservations
+  rpc AllReservations(GetAllReservationRequest) returns (GetAllReservationResponse);
+}
