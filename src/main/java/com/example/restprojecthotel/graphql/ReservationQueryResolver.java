@@ -2,6 +2,7 @@ package com.example.restprojecthotel.graphql;
 
 import com.example.restprojecthotel.entities.Reservation;
 import com.example.restprojecthotel.service.ReservationService;
+import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
@@ -22,7 +23,7 @@ public class ReservationQueryResolver {
     }
 
     @QueryMapping
-    public Reservation getReservationById(Long id) {
+    public Reservation getReservationById(@Argument Long id) {
         return reservationService.getReservationById(id)
                 .orElseThrow(() -> new RuntimeException("Reservation not found with id: " + id));
     }
